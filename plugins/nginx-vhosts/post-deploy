@@ -19,6 +19,23 @@ if [[ -f "$DOKKU_ROOT/VHOST" ]]; then
     SSL_INUSE="$WILDCARD_SSL"
   fi
 
+APP_NGINX_TEMPLATE="$DOKKU_ROOT/$APP/nginx.template"
+if [[ -f $APP_NGINX_TEMPLATE ]]; then
+  rm $APP_PATH/nginx.conf
+  # Add once-off configuration options. These should NOT go in the .conf
+  # templates because the .conf templates are meant to be appendable for
+  # multiple domains.
+  echo "upstream $APP { server 127.0.0.1:$PORT; }" > $APP_PATH/nginx.conf
+  echo '-----> Overriding default nginx.conf with detected nginx.template...'
+  NGINX_CONF=$APP_NGINX_TEMPLATE
+  # The VHOST file can contain more than one custom domain. We add each to the
+  # server_name parameter of nginx.
+  cat $VHOST_PATH | xargs -i \
+    echo "-----> Configuring {}..."
+  SERVER_NAME=`echo $NONSSL_VHOSTS | tr '\n' ' '`
+  
+  eval "cat <<< \"$(< $NGINX_CONF)\" >> $HOME/$APP/nginx.conf"
+else
   # ssl based nginx.conf
   if [[ -n "$SSL_INUSE" ]]; then
   cat<<EOF > $DOKKU_ROOT/$APP/nginx.conf
@@ -78,6 +95,7 @@ server {
   }
 }
 EOF
+fi
 
   echo "http://$hostname" > "$DOKKU_ROOT/$APP/URL"
   fi
