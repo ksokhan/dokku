@@ -5,7 +5,7 @@ APP="$1"; PORT="$2"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #this directory
 APP_PATH="$DOKKU_ROOT/$APP"
 VHOST_PATH="$APP_PATH/VHOST"
-SSL_DIR="$HOME/$APP/ssl"
+SSL_DIR="$APP_PATH/ssl"
 
 # Check if a VHOST exists. If not, default to proxying the server's hostname
 # (which may not always be correct, but worth a try).
