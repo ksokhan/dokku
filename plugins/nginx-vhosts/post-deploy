@@ -4,6 +4,7 @@ APP="$1"; PORT="$2"
 APP="$1"; PORT="$2"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #this directory
 APP_PATH="$DOKKU_ROOT/$APP"
+HOME="$DOKKU_ROOT"
 VHOST_PATH="$APP_PATH/VHOST"
 SSL_DIR="$APP_PATH/ssl"
 
