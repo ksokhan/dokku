@@ -21,11 +21,11 @@ if [[ -f "$DOKKU_ROOT/VHOST" ]]; then
 
 APP_NGINX_TEMPLATE="$DOKKU_ROOT/$APP/nginx.template"
 if [[ -f $APP_NGINX_TEMPLATE ]]; then
-  rm $APP_PATH/nginx.conf
+  rm $DOKKU_ROOT/$APP/nginx.conf
   # Add once-off configuration options. These should NOT go in the .conf
   # templates because the .conf templates are meant to be appendable for
   # multiple domains.
-  echo "upstream $APP { server 127.0.0.1:$PORT; }" > $APP_PATH/nginx.conf
+  echo "upstream $APP { server 127.0.0.1:$PORT; }" > $DOKKU_ROOT/$APP/nginx.conf
   echo '-----> Overriding default nginx.conf with detected nginx.template...'
   NGINX_CONF=$APP_NGINX_TEMPLATE
   # The VHOST file can contain more than one custom domain. We add each to the
