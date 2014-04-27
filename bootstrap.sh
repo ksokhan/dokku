@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -eo pipefail
 export DEBIAN_FRONTEND=noninteractive
 export DOKKU_REPO=${DOKKU_REPO:-"https://github.com/progrium/dokku.git"}
